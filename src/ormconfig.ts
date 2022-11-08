@@ -9,6 +9,7 @@ export const getConfig = (configService: ConfigService) => {
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_NAME'),
+    sslmode: configService.get('SSL_MODE'),
     synchronize: true,
     entities: entities,
   }

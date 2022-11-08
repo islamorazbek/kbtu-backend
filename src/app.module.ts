@@ -20,6 +20,7 @@ import { UserModule } from './user/user.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
+        ssl: true,
         entities: ['dist/**/*.entity.js'],
         synchronize: true,
       }),
