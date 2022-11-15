@@ -65,15 +65,15 @@ export class AuthService {
     private async validation(dto: LoginUserDto): Promise<User> {
 
         const user = await this.userService.getUserWithEmail(dto.email)
-        const errors = {}
+        let message = ""
         if (!user) {
-            errors['email'] = ["Некорректный емейл"]
-            throw new HttpException({ errors }, HttpStatus.UNPROCESSABLE_ENTITY)
+            message = "Incorrect email"
+            throw new HttpException({ message }, HttpStatus.UNPROCESSABLE_ENTITY)
         }
         const campfirePassword = await bcrypt.compare(dto.password, user.password)
         if (!campfirePassword) {
-            errors['password'] = ["Некорректный пороль"]
-            throw new HttpException({ errors }, HttpStatus.UNPROCESSABLE_ENTITY)
+            message = "Incorrect password"
+            throw new HttpException({ message }, HttpStatus.UNPROCESSABLE_ENTITY)
         }
         return user
     }
