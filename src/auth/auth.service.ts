@@ -33,12 +33,12 @@ export class AuthService {
     }
 
     async registration(dto: RegisterUserDto, res) {
-        const errors = {}
+        let message = ""
         const candidate = await this.userService.getUserWithEmail(dto.email)
 
         if (candidate) {
-            errors['email'] = ['такой email уже есть']
-            throw new HttpException({ errors }, HttpStatus.BAD_REQUEST)
+            message = 'такой email уже есть'
+            throw new HttpException({ message }, HttpStatus.BAD_REQUEST)
         }
 
         try {
@@ -48,8 +48,8 @@ export class AuthService {
             delete user.password
             return { access_token: tokens.access_token }
         } catch (e) {
-            errors['error'] = ['что то пошло не так']
-            throw new HttpException(errors, HttpStatus.BAD_REQUEST)
+            message = 'что то пошло не так'
+            throw new HttpException({ message }, HttpStatus.BAD_REQUEST)
         }
     }
 
