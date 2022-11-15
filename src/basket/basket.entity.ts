@@ -1,6 +1,6 @@
 import { Book } from "src/book/book.entity";
 import { User } from "src/user/user.entity";
-import { Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('baskets')
 export class Basket {
@@ -10,4 +10,7 @@ export class Basket {
   @OneToOne(() => User, user => user.basket)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  // @ManyToMany(() => Book)
+  // book: Book
 }

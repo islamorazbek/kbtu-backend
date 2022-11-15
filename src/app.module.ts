@@ -20,7 +20,7 @@ import { UserModule } from './user/user.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        ssl: true,
+        ssl: process.env.NODE_ENV === 'production' ? true : false,
         entities: ['dist/**/*.entity.js'],
         synchronize: true,
       }),
