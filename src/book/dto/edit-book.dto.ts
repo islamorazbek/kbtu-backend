@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsNotEmpty } from "class-validator"
+import { Category } from "src/category/category.entity"
 
 export class EditBookDto {
   @ApiProperty({ example: 1, required: true, description: "book id" })
@@ -10,7 +11,7 @@ export class EditBookDto {
 
   @ApiProperty({ example: "ADMIN", description: "book category" })
   @IsNotEmpty({ message: "required" })
-  category: string
+  categoryId: number
 
   @ApiProperty({ example: "ADMIN", description: "book description" })
   @IsNotEmpty({ message: "required" })

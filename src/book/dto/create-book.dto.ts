@@ -6,8 +6,7 @@ export class CreateBookDto {
   name: string
 
   @ApiProperty({ example: "ADMIN", description: "book category" })
-  @IsNotEmpty({ message: "required" })
-  category: string
+  categoryId?: number
 
   @ApiProperty({ example: "ADMIN", description: "book description" })
   @IsNotEmpty({ message: "required" })

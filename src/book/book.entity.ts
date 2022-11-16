@@ -20,6 +20,6 @@ export class Book {
 
   @ManyToOne(() => Category, category => category.books)
   @JoinColumn({ name: 'category_id' })
-  category: string
+  category: Category
 
 }
