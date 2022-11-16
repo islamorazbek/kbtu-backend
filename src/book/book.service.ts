@@ -9,6 +9,11 @@ import { EditBookDto } from './dto/edit-book.dto';
 export class BookService {
   constructor(@InjectRepository(Book) private bookRepository: Repository<Book>) { }
 
+  async getBooks() {
+    const books = await this.bookRepository.find();
+    return books
+  }
+
   async createBook(dto: CreateBookDto) {
     const book = await this.bookRepository.save(dto);
     return book

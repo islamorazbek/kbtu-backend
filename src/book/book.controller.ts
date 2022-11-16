@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { Book } from './book.entity';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -17,6 +17,11 @@ export class BookController {
   @Put()
   updateBook(@Body() dto: EditBookDto): Promise<Book> {
     return this.bookService.editBook(dto)
+  }
+
+  @Get()
+  getBooks(): Promise<Book[]> {
+    return this.bookService.getBooks()
   }
 
 }

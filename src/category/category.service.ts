@@ -8,6 +8,11 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 export class CategoryService {
   constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) { }
 
+  async getCategories() {
+    const categories = await this.categoryRepository.find()
+    return categories
+  }
+
   async createCategory(dto: CreateCategoryDto) {
     const category = await this.categoryRepository.save(dto);
     return category
