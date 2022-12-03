@@ -11,7 +11,7 @@ import { Token } from "./token.entity";
   providers: [AuthService],
   imports: [JwtModule.register({
     secret: "hello world",
-    signOptions: { expiresIn: "180m" }
+    signOptions: { expiresIn: "365d" }
   }), forwardRef(() => UserModule), TypeOrmModule.forFeature([Token])],
   exports: [JwtModule, AuthService]
 })

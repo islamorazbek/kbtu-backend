@@ -5,8 +5,10 @@ import { AuthModule } from './auth/auth.module';
 import { BasketModule } from './basket/basket.module';
 import { BookModule } from './book/book.module';
 import { CategoryModule } from './category/category.module';
+import { FileModule } from './file/file.module';
 import { AuthMiddleware } from './user/middlewares/auth.middleware';
 import { UserModule } from './user/user.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { UserModule } from './user/user.module';
         ssl: true,
         entities: ['dist/**/*.entity.js'],
         synchronize: true,
+        // only for development
+        // dropSchema: true
       }),
       inject: [ConfigService],
     }),
@@ -30,7 +34,9 @@ import { UserModule } from './user/user.module';
     UserModule,
     CategoryModule,
     BookModule,
-    BasketModule
+    BasketModule,
+    FileModule,
+    OrderModule
   ]
 })
 export class AppModule {

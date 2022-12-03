@@ -1,10 +1,11 @@
 import {
     Column,
-    Entity, OneToOne, PrimaryGeneratedColumn
+    Entity, OneToMany, OneToOne, PrimaryGeneratedColumn
 } from "typeorm";
 
 import { ApiProperty } from "@nestjs/swagger";
-import { Basket } from "src/basket/basket.entity";
+import { Order } from "src/order/order.entity";
+import { BasketItem } from "src/basket/basket-item.entity";
 
 @Entity({ name: "users" })
 export class User {
@@ -17,21 +18,24 @@ export class User {
     email: string;
 
     @ApiProperty({ example: "123456", description: "пороль пользователя" })
-    @Column({nullable: false})
+    @Column({ nullable: false })
     password: string;
 
     @ApiProperty({ example: "Алмас", description: "имя пользователя" })
-    @Column({nullable: false})
+    @Column({ nullable: false })
     firstName: string;
 
     @ApiProperty({ example: "Жумаханов", description: "фамилия пользователя" })
-    @Column({nullable: false})
+    @Column({ nullable: false })
     lastName: string
 
     @Column({ default: false })
     blocked: boolean
 
-    @OneToOne(()=>Basket,basket=>basket.user)
-    basket:Basket
+    @OneToOne(() => BasketItem, basketItem => basketItem.user)
+    basketItems: BasketItem[]
+
+    @OneToMany(() => Order, order => order.user)
+    orders: Order[]
 
 }

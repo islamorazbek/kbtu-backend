@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import * as bcrypt from 'bcryptjs';
+import { BasketService } from 'src/basket/basket.service';
 import { Repository } from "typeorm";
 import { RegisterUserDto } from "./dto/register-user.dto";
 import { UpdateUserPasswordDto } from "./dto/update-user.dto";
@@ -8,7 +9,9 @@ import { User } from "./user.entity";
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
+    constructor(
+        @InjectRepository(User) private userRepository: Repository<User>
+    ) { }
 
     async createUser(dto: RegisterUserDto): Promise<User> {
         const hashPassword = await bcrypt.hash(dto.password, 5)

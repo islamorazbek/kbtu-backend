@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { Category } from './category.entity';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -13,8 +14,9 @@ export class CategoryController {
   }
 
   @Post()
-  createBook(@Body() dto: CreateCategoryDto): Promise<Category> {
-    return this.categoryService.createCategory(dto)
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'icon', maxCount: 1 }]))
+  createCategory(@Body() dto: CreateCategoryDto, @UploadedFiles() files: { icon: Express.Multer.File }): Promise<Category> {
+    return this.categoryService.createCategory(dto, files.icon)
   }
   
 }

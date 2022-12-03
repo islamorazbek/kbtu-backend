@@ -1,6 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/category.entity';
+import { FileService } from 'src/file/file.service';
 import { Repository } from 'typeorm';
 import { Book } from './book.entity';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -10,23 +11,38 @@ import { EditBookDto } from './dto/edit-book.dto';
 export class BookService {
   constructor(
     @InjectRepository(Book) private bookRepository: Repository<Book>,
-    @InjectRepository(Book) private categoryRepository: Repository<Category>
+    @InjectRepository(Category) private categoryRepository: Repository<Category>,
+    private fileService: FileService,
   ) { }
 
-  async getBooks() {
-    const books = await this.bookRepository.find();
-    return { books: books }
+  findAll(): Promise<Book[]> {
+    return this.bookRepository.find();
   }
 
-  async createBook(dto: CreateBookDto) {
+  findOne(id: number): Promise<Book> {
+    return this.bookRepository.findOneBy({ id });
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.bookRepository.delete(id);
+  }
+
+  async createBook(dto: CreateBookDto, image: any) {
+    const fileName = await this.fileService.uploadFile(image[0])
+
     const { categoryId } = dto;
-    if (categoryId) {
-      const category = await this.categoryRepository.findOneBy({ id: categoryId })
-      const book = await this.bookRepository.save({ ...dto, category: category });
-      return book;
+
+    if (!categoryId) {
+      throw new HttpException("category is requried", 400)
     }
-    const book = await this.bookRepository.save(dto);
-    return book
+    const category = await this.categoryRepository.findOneBy({ id: categoryId })
+
+    if (!category) {
+      throw new HttpException("category not found", 400)
+    }
+    delete dto.categoryId;
+    const book = await this.bookRepository.save({ ...dto, category: category, photo: fileName });
+    return book;
   }
 
   async editBook(dto: EditBookDto) {
@@ -44,5 +60,9 @@ export class BookService {
     // const book = await this.bookRepository.save(dto);
     // return book
     // return await this.bookRepository.save({ ...book, ...dto })
+  }
+
+  async getBookById(id: number) {
+    return this.bookRepository.findOneBy({ id })
   }
 }

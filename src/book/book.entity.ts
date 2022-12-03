@@ -16,7 +16,7 @@ export class Book {
   price: string
 
   @Column()
-  image: string
+  photo?: string
 
   @ManyToOne(() => Category, category => category.books)
   @JoinColumn({ name: 'category_id' })
