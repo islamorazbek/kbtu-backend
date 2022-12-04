@@ -15,16 +15,7 @@ export class CreateOrderDto {
     @IsNotEmpty()
     @ApiProperty({example:"Койбагар",description:"Улица"})
     street:string;
-    @IsOptional()
-    @ApiProperty({example:"айди сохраненной карточки",description:"айди сохраненной карточки"})
-    cardsId?:string
     @IsNotEmpty()
     @ApiProperty({example:"87075545401",description:"телефон номер заказщика"})
     phone:string
-    @ApiProperty({example:"successUrl.com",description:"url при успешнов оплате"})
-    @IsOptional()
-    successUrl:string;
-    @ApiProperty({example:"errorUrl.com",description:"url при безуспешный оплате"})
-    @IsOptional()
-    errorUrl:string;
 }
