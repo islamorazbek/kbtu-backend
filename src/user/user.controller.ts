@@ -1,8 +1,9 @@
 import {
     Controller, Get, UseGuards
 } from '@nestjs/common';
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "../auth/guards/auth.guard";
+import { UserDecorator } from './decorator/User.decorator';
 // import { UserDecorator } from "./decorator/User.decorator";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
@@ -19,14 +20,14 @@ export class UserController {
         return this.userService.getUsers()
     }
 
-    // @ApiOperation({summary:"загрузить пользователя через его токен",})
-    // @ApiResponse({status:200,type:User})
-    // @ApiBearerAuth()
-    // @UseGuards(AuthGuard)
-    // @Get("me")
-    // userMe(@UserDecorator()user: User) {
-    //     return user
-    // }
+    @ApiOperation({ summary: "загрузить пользователя через его токен", })
+    @ApiResponse({ status: 200, type: User })
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
+    @Get("me")
+    userMe(@UserDecorator() user: User) {
+        return user
+    }
 
     // @ApiOperation({summary: "изменить пороль",})
     // @ApiResponse({status: 201})
