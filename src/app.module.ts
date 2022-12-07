@@ -26,7 +26,7 @@ import { OrderModule } from './order/order.module';
         entities: ['dist/**/*.entity.js'],
         synchronize: true,
         // only for development
-        dropSchema: true
+        // dropSchema: true
       }),
       inject: [ConfigService],
     }),
