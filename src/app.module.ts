@@ -6,9 +6,10 @@ import { BasketModule } from './basket/basket.module';
 import { BookModule } from './book/book.module';
 import { CategoryModule } from './category/category.module';
 import { FileModule } from './file/file.module';
+import { OrderModule } from './order/order.module';
+import { ShopModule } from './shop/shop.module';
 import { AuthMiddleware } from './user/middlewares/auth.middleware';
 import { UserModule } from './user/user.module';
-import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -36,8 +37,11 @@ import { OrderModule } from './order/order.module';
     BookModule,
     BasketModule,
     FileModule,
-    OrderModule
-  ]
+    OrderModule,
+    ShopModule
+  ],
+  providers: [],
+  controllers: []
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

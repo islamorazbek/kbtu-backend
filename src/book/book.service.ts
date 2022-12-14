@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/category.entity';
 import { FileService } from 'src/file/file.service';
+import { ShopService } from 'src/shop/shop.service';
 import { Repository } from 'typeorm';
 import { Book } from './book.entity';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -13,6 +14,7 @@ export class BookService {
     @InjectRepository(Book) private bookRepository: Repository<Book>,
     @InjectRepository(Category) private categoryRepository: Repository<Category>,
     private fileService: FileService,
+    private shopService: ShopService
   ) { }
 
   findAll(): Promise<Book[]> {
@@ -36,12 +38,16 @@ export class BookService {
       throw new HttpException("category is requried", 400)
     }
     const category = await this.categoryRepository.findOneBy({ id: categoryId })
+    const shop = await this.shopService.getShopById(dto.shopId)
 
     if (!category) {
       throw new HttpException("category not found", 400)
     }
+    if(!shop) {
+      throw new HttpException("shop not found", 400)
+    }
     delete dto.categoryId;
-    const book = await this.bookRepository.save({ ...dto, category: category, photo: fileName });
+    const book = await this.bookRepository.save({ ...dto, shop: shop, category: category, photo: fileName });
     return book;
   }
 

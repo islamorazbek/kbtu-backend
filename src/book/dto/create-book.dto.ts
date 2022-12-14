@@ -15,4 +15,8 @@ export class CreateBookDto {
   @ApiProperty({ example: "$500", description: "book price", required: true })
   @IsNotEmpty({ message: "required" })
   price: string
+
+  @ApiProperty({ example: "1", description: "shop id for book", required: true })
+  @IsNotEmpty({ message: "required" })
+  shopId: number
 }
